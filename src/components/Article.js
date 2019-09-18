@@ -13,12 +13,8 @@ class Article extends Component {
     }).isRequired
   };
 
-  componentWillReceiveProps(nextProps){
-    console.log('~~~~~', 'updating', this.props.isOpen, nextProps.isOpen);
-  }
-
-  componentWillMount() {
-    console.log('~~~~~', 'mounting');
+  state = {
+    updateIndex: 0
   }
 
   getBody() {
@@ -27,7 +23,8 @@ class Article extends Component {
     return (
       <section>
         {article.text}
-        <CommentList ref = {this.setCommentsRef} comments={article.comments} />
+        <button onClick={() => this.setState({ updateIndex: this.state.updateIndex + 1})}>update</button>
+        <CommentList ref = {this.setCommentsRef} comments={article.comments} key={this.state.updateIndex} />
       </section>
     );
   }
@@ -41,6 +38,8 @@ class Article extends Component {
     this.container = ref;
     console.log('~~~~', findDOMNode(ref))
   }
+
+
 
   render() {
     const { article, isOpen, toggleOpen } = this.props;
