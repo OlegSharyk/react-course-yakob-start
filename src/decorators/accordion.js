@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React  from 'react';
 
-export default Component => class Accordion extends Component {
+export default Component => class Accordion extends React.Component {
     state = {
         openItemId: null
     }
@@ -12,6 +12,11 @@ export default Component => class Accordion extends Component {
     }
 
     render() {
-        return <Component {...this.props} toggleOpenItem = {this.toggleOpenItem} openItemId = {this.state.toggleOpenItem} />
+        return (
+            <Component {...this.props} 
+                toggleOpenItem = {this.toggleOpenItem} 
+                openItemId = {this.state.openItemId} 
+            />
+        )
     }
 }
