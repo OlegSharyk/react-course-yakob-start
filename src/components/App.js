@@ -3,35 +3,32 @@ import PropTypes from 'prop-types';
 import ArticleList from './ArticleList';
 import ArticleChart from './ArticleChart';
 import UserForm from './UserForm';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css'
+import 'react-select/dist/react-select.css';
+import Filters from './Filters';
 
 class App extends Component {
-    static PropTypes = {
-
-    }
+    static PropTypes = {};
 
     state = {
-        selection: null
-    }
+        selection: null,
+    };
 
+    changeSelection = selection => this.setState({ selection });
 
-    changeSelection = selection => this.setState({selection})
-
-    render(){
+    render() {
         const options = this.props.articles.map(article => ({
             label: article.title,
-            value: article.id
-        }))
+            value: article.id,
+        }));
 
         return (
             <div>
                 <UserForm />
-                <Select options={options} value={this.state.selection} onChange={this.changeSelection } />
+                <Filters articles={this.props.articles} />
                 <ArticleList articles={this.props.articles} />
-                <ArticleChart articles={this.props.articles}  />
-            </div>            
-        )
+                <ArticleChart articles={this.props.articles} />
+            </div>
+        );
     }
 }
 
