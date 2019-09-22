@@ -1,69 +1,78 @@
-import React, {  PureComponent } from 'react';
-import {findDOMNode} from 'react-dom';
+import React, { PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import CommentList from './CommentList';
+import { CSSTransitionGroup } from 'react-transition-group';
+import './article.css';
 
 class Article extends PureComponent {
-  static PropTypes = {
-    // article: PropTypes.object.isRequired
-    article: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      text: PropTypes.string
-    }).isRequired,
-    isOpen: PropTypes.bool,
-    toggleOpen: PropTypes.func
-  };
+    static PropTypes = {
+        // article: PropTypes.object.isRequired
+        article: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            text: PropTypes.string,
+        }).isRequired,
+        isOpen: PropTypes.bool,
+        toggleOpen: PropTypes.func,
+    };
 
-  state = {
-    updateIndex: 0
-  }
+    state = {
+        updateIndex: 0,
+    };
 
-  // shouldComponentUpdate(nextProps, nextState){
-  //   // console.log('nextProps ~~~', nextProps);
-  //   // console.log('nextState ~~~', nextState);
+    // shouldComponentUpdate(nextProps, nextState){
+    //   // console.log('nextProps ~~~', nextProps);
+    //   // console.log('nextState ~~~', nextState);
 
-  //   return nextProps.isOpen !== this.props.isOpen;
-  // }
+    //   return nextProps.isOpen !== this.props.isOpen;
+    // }
 
-  getBody() {
-    const { article, isOpen } = this.props;
-    if (!isOpen) return null;
-    return (
-      <section>
-        {article.text}
-        <button onClick={() => this.setState({ updateIndex: this.state.updateIndex + 1})}>update</button>
-        <CommentList ref = {this.setCommentsRef} comments={article.comments} key={this.state.updateIndex} />
-      </section>
-    );
-  }
+    getBody() {
+        const { article, isOpen } = this.props;
+        if (!isOpen) return null;
+        return (
+            <section>
+                {article.text}
+                <button onClick={() => this.setState({ updateIndex: this.state.updateIndex + 1 })}>
+                    update
+                </button>
+                <CommentList
+                    ref={this.setCommentsRef}
+                    comments={article.comments}
+                    key={this.state.updateIndex}
+                />
+            </section>
+        );
+    }
 
-  setContainerRef = ref => {
-    this.container = ref;
-    // console.log('~~~~', ref)
-  }
+    setContainerRef = ref => {
+        this.container = ref;
+        // console.log('~~~~', ref)
+    };
 
-  setCommentsRef = ref => {
-    this.container = ref;
-    // console.log('~~~~', findDOMNode(ref))
-  }
+    setCommentsRef = ref => {
+        this.container = ref;
+        // console.log('~~~~', findDOMNode(ref))
+    };
 
+    render() {
+        const { article, isOpen, toggleOpen } = this.props;
+        console.log('~~~~', 'update article');
 
-
-  render() {
-    const { article, isOpen, toggleOpen } = this.props;
-    console.log('~~~~', 'update article')
-
-    return (
-      <div ref={this.setContainerRef}>
-        <h3>{article.title}!!!</h3>
-        <button onClick={toggleOpen}>
-          {isOpen ? 'Close' : 'Open'}
-        </button>
-        {this.getBody()}
-      </div>
-    );
-  }
+        return (
+            <div ref={this.setContainerRef}>
+                <h3>{article.title}!!!</h3>
+                <button onClick={toggleOpen}>{isOpen ? 'Close' : 'Open'}</button>
+                <CSSTransitionGroup
+                    transitionName="article"
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={500}>
+                    {this.getBody()}
+                </CSSTransitionGroup>
+            </div>
+        );
+    }
 }
 
 export default Article;
