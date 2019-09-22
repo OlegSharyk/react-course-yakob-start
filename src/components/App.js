@@ -5,6 +5,7 @@ import ArticleChart from './ArticleChart';
 import UserForm from './UserForm';
 import 'react-select/dist/react-select.css';
 import Filters from './Filters';
+import Counter from './Counter';
 
 class App extends Component {
     static PropTypes = {};
@@ -24,6 +25,7 @@ class App extends Component {
         return (
             <div>
                 <UserForm />
+                <Counter />
                 <Filters articles={this.props.articles} />
                 <ArticleList articles={this.props.articles} />
                 <ArticleChart articles={this.props.articles} />
