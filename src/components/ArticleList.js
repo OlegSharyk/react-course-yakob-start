@@ -1,41 +1,39 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Article from './Article';
-import accordion from '../decorators/accordion'
+import accordion from '../decorators/accordion';
+import { connect } from 'react-redux';
 
 class ArticleList extends Component {
-static PropTypes = {
-    articles: PropTypes.array.isRequired,
-    //from accordion
-    openItemId: PropTypes.string,
-    toggleOpenItems: PropTypes.func.isRequired
-}
+    static PropTypes = {
+        // from connect
+        articles: PropTypes.array.isRequired,
+        //from accordion
+        openItemId: PropTypes.string,
+        toggleOpenItems: PropTypes.func.isRequired,
+    };
 
     state = {
-        openArticleId: null
-    }
+        openArticleId: null,
+    };
 
-    render(){
-        const {articles, openItemId, toggleOpenItem} = this.props;
+    render() {
+        const { articles, openItemId, toggleOpenItem } = this.props;
 
-        const articleElements = articles.map((article) => (
-            <li 
-                key={article.id} 
-            >
-                <Article 
-                    article={article} 
+        const articleElements = articles.map(article => (
+            <li key={article.id}>
+                <Article
+                    article={article}
                     isOpen={article.id === openItemId}
-                    toggleOpen={toggleOpenItem(article.id)}                     
+                    toggleOpen={toggleOpenItem(article.id)}
                 />
             </li>
-        ))
+        ));
 
-        return (
-            <ul>
-                {articleElements}
-            </ul>
-        )
+        return <ul>{articleElements}</ul>;
     }
 }
 
-export default accordion(ArticleList)
+export default connect(state => ({
+    articles: state.articles,
+}))(accordion(ArticleList));

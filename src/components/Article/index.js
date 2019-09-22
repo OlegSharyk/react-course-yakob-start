@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
 import './style.css';
+import { connect } from 'react-redux';
+import { deleteArticle } from '../../ActionCreators';
 
 class Article extends PureComponent {
     static PropTypes = {
@@ -20,13 +22,6 @@ class Article extends PureComponent {
     state = {
         updateIndex: 0,
     };
-
-    // shouldComponentUpdate(nextProps, nextState){
-    //   // console.log('nextProps ~~~', nextProps);
-    //   // console.log('nextState ~~~', nextState);
-
-    //   return nextProps.isOpen !== this.props.isOpen;
-    // }
 
     getBody() {
         const { article, isOpen } = this.props;
@@ -56,6 +51,12 @@ class Article extends PureComponent {
         // console.log('~~~~', findDOMNode(ref))
     };
 
+    handleDelete = () => {
+        const { deleteArticle, article } = this.props;
+        deleteArticle(article.id);
+        console.log('~~~ delete article');
+    };
+
     render() {
         const { article, isOpen, toggleOpen } = this.props;
         console.log('~~~~', 'update article');
@@ -64,6 +65,7 @@ class Article extends PureComponent {
             <div ref={this.setContainerRef}>
                 <h3>{article.title}!!!</h3>
                 <button onClick={toggleOpen}>{isOpen ? 'Close' : 'Open'}</button>
+                <button onClick={this.handleDelete}>Delete me</button>
                 <CSSTransitionGroup
                     transitionName="article"
                     transitionEnterTimeout={300}
@@ -76,4 +78,7 @@ class Article extends PureComponent {
     }
 }
 
-export default Article;
+export default connect(
+    null,
+    { deleteArticle },
+)(Article);
