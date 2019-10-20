@@ -1,4 +1,12 @@
-import { DELETE_ARTICLE, INCREMENT, CHANGE_SELECTION, SET_DATE } from '../constants';
+import {
+    DELETE_ARTICLE,
+    INCREMENT,
+    CHANGE_DATE_RANGE,
+    CHANGE_SELECTION,
+    SET_DATE,
+    ADD_COMMENT,
+    LOAD_ALL_ARTICLES,
+} from '../constants';
 
 export function increment() {
     return {
@@ -32,5 +40,12 @@ export function addComment(comment, articleId) {
         type: ADD_COMMENT,
         payload: { comment, articleId },
         generateId: true,
+    };
+}
+
+export function loadAllArticles() {
+    return {
+        type: LOAD_ALL_ARTICLES,
+        callAPI: '/api/article',
     };
 }
