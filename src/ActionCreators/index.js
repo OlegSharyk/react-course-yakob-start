@@ -26,3 +26,11 @@ export function changeDateRange(date) {
         payload: { date },
     };
 }
+
+export function addComment(comment, articleId) {
+    return {
+        type: ADD_COMMENT,
+        payload: { comment, articleId },
+        generateId: true,
+    };
+}

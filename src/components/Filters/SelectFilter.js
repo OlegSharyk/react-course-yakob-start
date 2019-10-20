@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { changeSelection } from '../../ActionCreators';
+import { mapToArr } from '../../helpers';
 
 import 'react-select/dist/react-select.css';
 
 class SelectFilter extends Component {
+    static propTypes = {
+        articles: PropTypes.array.isRequired,
+    };
+
     handleChange = selected => this.props.changeSelection(selected.map(option => option.value));
 
     render() {
@@ -27,7 +32,7 @@ class SelectFilter extends Component {
 function mapStateToProps(state) {
     return {
         selected: state.filters.selected,
-        articles: state.articles,
+        articles: mapToArr(state.articles),
     };
 }
 

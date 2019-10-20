@@ -30,7 +30,7 @@ function renderBody({ comments, isOpen }) {
         return (
             <div>
                 <p>No comments yet</p>
-                <CommentForm />
+                <CommentForm articleId={id} />
             </div>
         );
 
@@ -43,7 +43,7 @@ function renderBody({ comments, isOpen }) {
                     </li>
                 ))}
             </ul>
-            <CommentForm />
+            <CommentForm articleId={id} />
         </div>
     );
 }
