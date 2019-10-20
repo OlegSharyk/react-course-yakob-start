@@ -5,7 +5,8 @@ import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
 import './style.css';
 import { connect } from 'react-redux';
-import { deleteArticle } from '../../ActionCreators';
+import { deleteArticle, loadArticle } from '../../ActionCreators';
+import { Loader } from '../Loader';
 
 class Article extends PureComponent {
     static PropTypes = {
@@ -23,9 +24,14 @@ class Article extends PureComponent {
         updateIndex: 0,
     };
 
+    componentWillReceiveProps({ isOpen, loadArticle, article }) {
+        if (isOpen && !article.text && !article.loading) loadArticle(article.id);
+    }
+
     getBody() {
         const { article, isOpen } = this.props;
         if (!isOpen) return null;
+        if (article.loading) return <Loader />;
         return (
             <section>
                 {article.text}
@@ -79,5 +85,5 @@ class Article extends PureComponent {
 
 export default connect(
     null,
-    { deleteArticle },
+    { deleteArticle, loadArticle },
 )(Article);
