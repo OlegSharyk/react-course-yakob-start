@@ -32,7 +32,7 @@ class SelectFilter extends Component {
 function mapStateToProps(state) {
     return {
         selected: state.filters.selected,
-        articles: mapToArr(state.articles),
+        articles: mapToArr(state.articles.entities),
     };
 }
 
