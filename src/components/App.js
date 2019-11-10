@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
 import Articles from './routes/Articles';
 import UserForm from './UserForm';
 import 'react-select/dist/react-select.css';
 import Filters from './Filters';
 import Counter from './Counter';
+import NewArticle from './routes/NewArticle';
+import NotFound from './routes/NotFound';
 
 class App extends Component {
     static PropTypes = {};
@@ -20,7 +22,6 @@ class App extends Component {
             <Router>
                 <div>
                     <div>
-                        <h2>Main menu</h2>
                         <div>
                             <h2>Main menu</h2>
                             <div>
@@ -41,9 +42,13 @@ class App extends Component {
                         </div>
                     </div>
                     <UserForm />
-                    <Route path="/counter" component={Counter} />
-                    <Route path="/filters" component={Filters} />
-                    <Route path="/articles" component={Articles} />
+                    <Switch>
+                        <Route path="/counter" component={Counter} />
+                        <Route path="/filters" component={Filters} />
+                        <Route path="/articles/new" component={NewArticle} />
+                        <Route path="/articles" component={Articles} />
+                        <Route path="*" component={NotFound} />
+                    </Switch>
                 </div>
             </Router>
         );
