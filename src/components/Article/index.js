@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
@@ -11,36 +10,37 @@ import { Loader } from '../Loader';
 class Article extends PureComponent {
     static PropTypes = {
         // article: PropTypes.object.isRequired
+        id: PropTypes.string.isRequired,
+        isOpen: PropTypes.bool,
+        toggleOpen: PropTypes.func,
         article: PropTypes.shape({
             id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             text: PropTypes.string,
-        }).isRequired,
-        isOpen: PropTypes.bool,
-        toggleOpen: PropTypes.func,
+        }),
     };
 
     state = {
         updateIndex: 0,
     };
 
-    componentWillReceiveProps({ isOpen, loadArticle, article }) {
-        if (isOpen && !article.text && !article.loading) loadArticle(article.id);
+    componentDidMount() {
+        const { loadArticle, article } = this.props;
+        if (!article || (!article.text && !article.loading)) loadArticle(article.id);
     }
 
     getBody() {
         const { article, isOpen } = this.props;
+
         if (!isOpen) return null;
         if (article.loading) return <Loader />;
         return (
             <section>
+                article.text
                 {article.text}
-                <button onClick={() => this.setState({ updateIndex: this.state.updateIndex + 1 })}>
-                    update
-                </button>
                 <CommentList
+                    article={article}
                     ref={this.setCommentsRef}
-                    comments={article.comments}
                     key={this.state.updateIndex}
                 />
             </section>
@@ -66,6 +66,8 @@ class Article extends PureComponent {
     render() {
         const { article, isOpen, toggleOpen } = this.props;
 
+        if (!article) return null;
+
         return (
             <div ref={this.setContainerRef}>
                 <h3>{article.title}!!!</h3>
@@ -84,6 +86,10 @@ class Article extends PureComponent {
 }
 
 export default connect(
-    null,
+    (state, ownProps) => {
+        return {
+            article: state.articles.entities.get(ownProps.id),
+        };
+    },
     { deleteArticle, loadArticle },
 )(Article);

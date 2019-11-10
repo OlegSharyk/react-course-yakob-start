@@ -3,7 +3,7 @@ import { mapToArr } from '../helpers';
 
 const filtersGetter = state => state.filters;
 const articlesGetter = state => state.articles.entities;
-const commentsGetter = state => state.comments;
+const commentsGetter = state => state.comments.entities;
 const idGetter = (state, props) => props.id;
 
 export const filtrateArticlesSelector = createSelector(
@@ -33,6 +33,6 @@ export const commentSelectorFactory = () =>
         idGetter,
         (comments, id) => {
             // console.log('getting comments');
-            return comments[id];
+            return comments.get(id);
         },
     );

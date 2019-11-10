@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ArticleList from './ArticleList';
+import { HashRouter as Router, Route, NavLink } from 'react-router-dom';
+import Articles from './routes/Articles';
 import UserForm from './UserForm';
 import 'react-select/dist/react-select.css';
 import Filters from './Filters';
@@ -17,12 +17,28 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <UserForm />
-                <Counter />
-                <Filters articles={[]} />
-                <ArticleList />
-            </div>
+            <Router>
+                <div>
+                    <div>
+                        <h2>Main menu</h2>
+                        <div>
+                            <NavLink activeStyle={{ color: 'red' }} to="/counter">
+                                Counter
+                            </NavLink>
+                            <NavLink activeStyle={{ color: 'red' }} to="/filters">
+                                Filters
+                            </NavLink>
+                            <NavLink activeStyle={{ color: 'red' }} to="/articles">
+                                Articles
+                            </NavLink>
+                        </div>
+                    </div>
+                    <UserForm />
+                    <Route path="/counter" component={Counter} />
+                    <Route path="/filters" component={Filters} />
+                    <Route path="/articles" component={Articles} />
+                </div>
+            </Router>
         );
     }
 }

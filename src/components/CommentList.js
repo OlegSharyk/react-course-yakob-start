@@ -4,18 +4,38 @@ import Comment from './Comment';
 import toggleOpen from '../decorators/toggleOpen';
 import CommentForm from './CommentForm';
 
-function CommentList({ comments = [], isOpen, toggleOpen }) {
-    const buttonText = isOpen ? 'hide comments' : 'show comments';
+class CommentList extends Comment {
+    componentWillReceiveProps({ isOpen, article, loadArticleComments }) {
+        if (!this.props.isOpen && isOpen && !article.commentsLoading && !article.commentsLoaded) {
+            loadArticleComments(article.id);
+        }
+    }
 
-    return (
-        <div>
-            <p>
-                <button onClick={toggleOpen}>{buttonText}</button>
-            </p>
-            {renderBody({ comments, isOpen })}
-        </div>
-    );
+    render() {
+        const { article, isOpen, toggleOpen } = this.props;
+        const text = isOpen ? 'hide comments' : 'show comments';
+
+        return (
+            <div>
+                <button onClick={toggleOpen}>{text}</button>
+                {renderBody({ article, isOpen })}
+            </div>
+        );
+    }
 }
+
+// function CommentList({ comments = [], isOpen, toggleOpen }) {
+//     const buttonText = isOpen ? 'hide comments' : 'show comments';
+
+//     return (
+//         <div>
+//             <p>
+//                 <button onClick={toggleOpen}>{buttonText}</button>
+//             </p>
+//             {renderBody({ comments, isOpen })}
+//         </div>
+//     );
+// }
 
 CommentList.PropTypes = {
     comments: PropTypes.array,
@@ -26,6 +46,8 @@ CommentList.PropTypes = {
 
 function renderBody({ comments, isOpen }) {
     if (!isOpen) return null;
+    if (commentsLoading) return <Loader />;
+    if (commentsLoaded) return null;
     if (!comments.length)
         return (
             <div>
