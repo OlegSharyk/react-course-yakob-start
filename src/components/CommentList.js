@@ -27,10 +27,7 @@ class CommentList extends Component {
         return (
             <div>
                 <h3>User: {this.context.user}</h3>
-                <button onClick={toggleOpen}>
-                    {/*<LocalizedText>{text}</LocalizedText>*/}
-                    {text}
-                </button>
+                <button onClick={toggleOpen}>{/*<LocalizedText>{text}</LocalizedText>*/}</button>
                 {getBody({ article, isOpen })}
             </div>
         );
