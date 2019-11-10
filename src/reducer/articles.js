@@ -1,3 +1,4 @@
+import { normalizedArticles as defaultArticles } from '../fixtures';
 import { arrToMap } from '../helpers';
 import {
     DELETE_ARTICLE,
@@ -52,12 +53,11 @@ export default (articleState = defaultState, action) => {
         case LOAD_ARTICLE + START:
             return articleState.setIn(['entities', payload.id, 'loading'], true);
 
-        case LOAD_ARTICLE + SUCCESS: {
+        case LOAD_ARTICLE + SUCCESS:
             return articleState.setIn(
                 ['entities', payload.id],
                 new ArticleRecord(payload.response),
             );
-        }
 
         case LOAD_ARTICLE_COMMENTS + START:
             return articleState.setIn(['entities', payload.articleId, 'commentsLoading'], true);

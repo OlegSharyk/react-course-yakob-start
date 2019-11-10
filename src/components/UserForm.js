@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 
 class UserForm extends Component {
-    static PropTypes = {
-
-    }
-
-    state = {
-        username: ''
-    }
-
-    handleUserChange = (ev) => {
-        if (ev.target.value.length > 10) return
-        this.setState({
-            username: ev.target.value
-        })
-    }
+    static propTypes = {};
 
     render() {
         return (
             <div>
-                Name: <input type="text" value={this.state.username} onChange={this.handleUserChange} />
+                Name:{' '}
+                <input type="text" value={this.props.value} onChange={this.handleUserChange} />
             </div>
-        )
+        );
     }
+
+    handleUserChange = ev => {
+        if (ev.target.value.length > 10) return;
+        this.props.onChange(ev.target.value);
+    };
 }
 
 export default UserForm;

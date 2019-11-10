@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+// import { routerReducer } from 'react-router-redux';
 import counterReducer from './counter';
 import articles from './articles';
 import comments from './comments';
@@ -9,4 +10,5 @@ export default combineReducers({
     articles,
     comments,
     filters,
+    // router: routerReducer,
 });

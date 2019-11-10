@@ -22,15 +22,22 @@ class App extends Component {
                     <div>
                         <h2>Main menu</h2>
                         <div>
-                            <NavLink activeStyle={{ color: 'red' }} to="/counter">
-                                Counter
-                            </NavLink>
-                            <NavLink activeStyle={{ color: 'red' }} to="/filters">
-                                Filters
-                            </NavLink>
-                            <NavLink activeStyle={{ color: 'red' }} to="/articles">
-                                Articles
-                            </NavLink>
+                            <h2>Main menu</h2>
+                            <div>
+                                <NavLink activeStyle={{ color: 'red' }} to="/counter">
+                                    Counter
+                                </NavLink>
+                            </div>
+                            <div>
+                                <NavLink activeStyle={{ color: 'red' }} to="/filters">
+                                    Filters
+                                </NavLink>
+                            </div>
+                            <div>
+                                <NavLink activeStyle={{ color: 'red' }} to="/articles">
+                                    Articles
+                                </NavLink>
+                            </div>
                         </div>
                     </div>
                     <UserForm />

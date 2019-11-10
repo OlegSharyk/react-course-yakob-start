@@ -1,42 +1,49 @@
-import React, { PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
-import './style.css';
-import { connect } from 'react-redux';
 import { deleteArticle, loadArticle } from '../../ActionCreators';
-import { Loader } from '../Loader';
+import Loader from '../Loader';
+// import LocalizedText from '../LocalizedText';
+import './style.css';
 
 class Article extends PureComponent {
-    static PropTypes = {
-        // article: PropTypes.object.isRequired
+    static propTypes = {
         id: PropTypes.string.isRequired,
         isOpen: PropTypes.bool,
         toggleOpen: PropTypes.func,
+        //from connect
         article: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
+            id: PropTypes.string,
+            title: PropTypes.string,
             text: PropTypes.string,
         }),
     };
 
     state = {
         updateIndex: 0,
+        areCommentsOpen: false,
     };
 
     componentDidMount() {
-        const { loadArticle, article } = this.props;
-        if (!article || (!article.text && !article.loading)) loadArticle(article.id);
+        const { loadArticle, article, id } = this.props;
+        if (!article || (!article.text && !article.loading)) loadArticle(id);
     }
+
+    /*
+shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.isOpen !== this.props.isOpen
+}
+*/
 
     getBody() {
         const { article, isOpen } = this.props;
-
         if (!isOpen) return null;
         if (article.loading) return <Loader />;
         return (
             <section>
-                article.text
                 {article.text}
                 <CommentList
                     article={article}
@@ -49,34 +56,36 @@ class Article extends PureComponent {
 
     setContainerRef = ref => {
         this.container = ref;
-        // console.log('~~~~', ref)
+        //        console.log('---', ref)
     };
 
     setCommentsRef = ref => {
-        this.container = ref;
-        // console.log('~~~~', findDOMNode(ref))
+        this.comments = ref;
+        //        console.log('---', ref)
     };
 
     handleDelete = () => {
         const { deleteArticle, article } = this.props;
         deleteArticle(article.id);
-        // console.log('~~~ delete article');
+        console.log('---', 'deleting article');
     };
 
     render() {
         const { article, isOpen, toggleOpen } = this.props;
-
         if (!article) return null;
-
         return (
             <div ref={this.setContainerRef}>
-                <h3>{article.title}!!!</h3>
-                <button onClick={toggleOpen}>{isOpen ? 'Close' : 'Open'}</button>
-                <button onClick={this.handleDelete}>Delete me</button>
+                <h3>{article.title}</h3>
+                <button onClick={this.handleDelete}>
+                    {/*<LocalizedText>delete me</LocalizedText>*/}
+                    delete me
+                </button>
                 <CSSTransitionGroup
                     transitionName="article"
+                    transitionAppear
                     transitionEnterTimeout={300}
                     transitionLeaveTimeout={500}
+                    transitionAppearTimeout={500}
                     component="div">
                     {this.getBody()}
                 </CSSTransitionGroup>

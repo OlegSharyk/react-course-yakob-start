@@ -3,14 +3,14 @@ import {
     INCREMENT,
     CHANGE_DATE_RANGE,
     CHANGE_SELECTION,
-    SET_DATE,
     ADD_COMMENT,
     LOAD_ALL_ARTICLES,
     LOAD_ARTICLE,
-    START,
-    FAIL,
-    SUCCESS,
     LOAD_ARTICLE_COMMENTS,
+    LOAD_COMMENTS_FOR_PAGE,
+    START,
+    SUCCESS,
+    FAIL,
 } from '../constants';
 
 export function increment() {
@@ -26,6 +26,13 @@ export function deleteArticle(id) {
     };
 }
 
+export function changeDateRange(dateRange) {
+    return {
+        type: CHANGE_DATE_RANGE,
+        payload: { dateRange },
+    };
+}
+
 export function changeSelection(selected) {
     return {
         type: CHANGE_SELECTION,
@@ -33,12 +40,12 @@ export function changeSelection(selected) {
     };
 }
 
-export function changeDateRange(date) {
-    return {
-        type: SET_DATE,
-        payload: { date },
-    };
-}
+// export function changeDateRange(date) {
+//     return {
+//         type: SET_DATE,
+//         payload: { date },
+//     };
+// }
 
 export function addComment(comment, articleId) {
     return {
@@ -89,6 +96,7 @@ export function loadArticle(id) {
                         type: LOAD_ARTICLE + FAIL,
                         payload: { id, error },
                     });
+                    // dispatch(replace('/error'));
                 });
         }, 500);
     };
@@ -109,9 +117,11 @@ export function checkAndLoadCommentsForPage(page) {
     };
 }
 
-// export function loadArticle(id) {
-//     return {
-//         type: LOAD_ARTICLE,
-//         callAPI: `/api/article/${id}`,
-//     };
-// }
+/*
+export function loadArticle(id) {
+    return {
+        type: LOAD_ARTICLE,
+        callAPI: `/api/article/${id}`
+    }
+}
+*/

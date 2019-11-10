@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Loader from './Loader';
 import Comment from './Comment';
-import toggleOpen from '../decorators/toggleOpen';
 import CommentForm from './CommentForm';
+// import LocalizedText from './LocalizedText';
+import toggleOpen from '../decorators/toggleOpen';
+import { loadArticleComments } from '../ActionCreators';
+import { connect } from 'react-redux';
 
-class CommentList extends Comment {
+class CommentList extends Component {
+    static contextTypes = {
+        store: PropTypes.object,
+        router: PropTypes.object,
+        user: PropTypes.string,
+    };
+
     componentWillReceiveProps({ isOpen, article, loadArticleComments }) {
         if (!this.props.isOpen && isOpen && !article.commentsLoading && !article.commentsLoaded) {
             loadArticleComments(article.id);
@@ -14,44 +24,38 @@ class CommentList extends Comment {
     render() {
         const { article, isOpen, toggleOpen } = this.props;
         const text = isOpen ? 'hide comments' : 'show comments';
-
         return (
             <div>
-                <button onClick={toggleOpen}>{text}</button>
-                {renderBody({ article, isOpen })}
+                <h3>User: {this.context.user}</h3>
+                <button onClick={toggleOpen}>
+                    {/*<LocalizedText>{text}</LocalizedText>*/}
+                    {text}
+                </button>
+                {getBody({ article, isOpen })}
             </div>
         );
     }
 }
 
-// function CommentList({ comments = [], isOpen, toggleOpen }) {
-//     const buttonText = isOpen ? 'hide comments' : 'show comments';
-
-//     return (
-//         <div>
-//             <p>
-//                 <button onClick={toggleOpen}>{buttonText}</button>
-//             </p>
-//             {renderBody({ comments, isOpen })}
-//         </div>
-//     );
-// }
-
-CommentList.PropTypes = {
+CommentList.propTypes = {
     comments: PropTypes.array,
     //from toggleOpen decorator
     isOpen: PropTypes.bool,
     toggleOpen: PropTypes.func,
 };
 
-function renderBody({ comments, isOpen }) {
+function getBody({ article: { comments = [], id, commentsLoaded, commentsLoading }, isOpen }) {
     if (!isOpen) return null;
     if (commentsLoading) return <Loader />;
-    if (commentsLoaded) return null;
+    if (!commentsLoaded) return null;
+
     if (!comments.length)
         return (
             <div>
-                <p>No comments yet</p>
+                <p>
+                    {/*<LocalizedText>No comments yet</LocalizedText>*/}
+                    No comments yet
+                </p>
                 <CommentForm articleId={id} />
             </div>
         );
@@ -70,4 +74,9 @@ function renderBody({ comments, isOpen }) {
     );
 }
 
-export default toggleOpen(CommentList);
+export default connect(
+    null,
+    { loadArticleComments },
+    null,
+    { pure: false },
+)(toggleOpen(CommentList));

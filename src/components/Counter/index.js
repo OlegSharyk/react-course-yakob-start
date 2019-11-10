@@ -4,15 +4,9 @@ import { connect } from 'react-redux';
 import { increment } from '../../ActionCreators';
 
 class Counter extends Component {
-    static PropTypes = {
+    static propTypes = {
         counter: PropTypes.number,
         increment: PropTypes.func.isRequired,
-    };
-
-    handleIncrement = () => {
-        // console.log('~~~increment');
-        const { increment } = this.props;
-        increment();
     };
 
     render() {
@@ -23,17 +17,16 @@ class Counter extends Component {
             </div>
         );
     }
-}
 
-function mapStateToProps(state) {
-    return {
-        counter: state.count,
+    handleIncrement = () => {
+        const { increment } = this.props;
+        increment();
     };
 }
 
-const mapDispatchToProps = { increment };
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
+    state => ({
+        counter: state.count,
+    }),
+    { increment },
 )(Counter);

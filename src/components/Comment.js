@@ -6,26 +6,24 @@ import { commentSelectorFactory } from '../selectors';
 function Comment({ comment }) {
     return (
         <div>
-            <p>{comment.text}</p>
-            <p style={{ textAlign: 'right' }}>
-                <strong>{comment.user}</strong>
+            <p>
+                {comment.text} <b>by {comment.user}</b>
             </p>
         </div>
     );
 }
 
-Comment.PropTypes = {
+Comment.propTypes = {
     id: PropTypes.string.isRequired,
-    // from connect
+    //from connect
     comment: PropTypes.shape({
-        text: PropTypes.string,
-        user: PropTypes.string,
+        text: PropTypes.string.isRequired,
+        user: PropTypes.string.isRequired,
     }).isRequired,
 };
 
 const mapStateToProps = () => {
     const commentSelector = commentSelectorFactory();
-    // console.log('commentSelector', commentSelector);
 
     return (state, ownProps) => {
         return {

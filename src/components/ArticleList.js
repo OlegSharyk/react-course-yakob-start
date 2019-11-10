@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
-import { filtrateArticlesSelector } from '../selectors';
+import { filtratedArticlesSelector } from '../selectors';
 import { loadAllArticles } from '../ActionCreators';
-import { Loader } from './Loader';
+import Loader from './Loader';
 import { NavLink } from 'react-router-dom';
 
 class ArticleList extends Component {
-    static PropTypes = {
-        // from connect
+    static propTypes = {
+        //from connect
         articles: PropTypes.array.isRequired,
         //from accordion
         openItemId: PropTypes.string,
@@ -23,9 +22,7 @@ class ArticleList extends Component {
 
     render() {
         const { articles, loading } = this.props;
-
         if (loading) return <Loader />;
-
         const articleElements = articles.map(article => (
             <li key={article.id}>
                 <NavLink to={`/articles/${article.id}`} activeStyle={{ color: 'red' }}>
@@ -41,7 +38,7 @@ class ArticleList extends Component {
 export default connect(
     state => {
         return {
-            articles: filtrateArticlesSelector(state),
+            articles: filtratedArticlesSelector(state),
             loading: state.articles.loading,
             loaded: state.articles.loaded,
         };
