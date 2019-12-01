@@ -27,7 +27,9 @@ class CommentList extends Component {
         return (
             <div>
                 <h3>User: {this.context.user}</h3>
-                <button onClick={toggleOpen}>{/*<LocalizedText>{text}</LocalizedText>*/}</button>
+                <button onClick={toggleOpen}>
+                    Show comments {/*<LocalizedText>{text}</LocalizedText>*/}
+                </button>
                 {getBody({ article, isOpen })}
             </div>
         );
@@ -71,9 +73,6 @@ function getBody({ article: { comments = [], id, commentsLoaded, commentsLoading
     );
 }
 
-export default connect(
-    null,
-    { loadArticleComments },
-    null,
-    { pure: false },
-)(toggleOpen(CommentList));
+export default connect(null, { loadArticleComments }, null, { pure: false })(
+    toggleOpen(CommentList),
+);

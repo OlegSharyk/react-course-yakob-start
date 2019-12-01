@@ -8,7 +8,6 @@ class Articles extends Component {
     static propTypes = {};
 
     render() {
-        console.log('---', 1);
         return (
             <div>
                 <ArticleList />

@@ -33,10 +33,10 @@ class Article extends PureComponent {
     }
 
     /*
-shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.isOpen !== this.props.isOpen
-}
-*/
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.isOpen !== this.props.isOpen
+    }
+    */
 
     getBody() {
         const { article, isOpen } = this.props;
