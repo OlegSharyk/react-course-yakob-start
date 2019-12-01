@@ -12,6 +12,7 @@ import {
     SUCCESS,
     FAIL,
 } from '../constants';
+import { push, replace } from 'react-router-redux';
 
 export function increment() {
     return {
@@ -96,7 +97,7 @@ export function loadArticle(id) {
                         type: LOAD_ARTICLE + FAIL,
                         payload: { id, error },
                     });
-                    // dispatch(replace('/error'));
+                    dispatch(replace('/error'));
                 });
         }, 500);
     };
