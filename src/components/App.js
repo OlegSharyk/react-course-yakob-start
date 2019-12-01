@@ -10,12 +10,24 @@ import Counter from './Counter';
 import NewArticle from './routes/NewArticle';
 import NotFound from './routes/NotFound';
 import history from '../history';
+import PropTypes from 'prop-types';
 
 class App extends Component {
     static PropTypes = {};
 
+    static childContextTypes = {
+        user: PropTypes.string,
+    };
+
+    getChildContext() {
+        return {
+            user: this.state.username,
+        };
+    }
+
     state = {
         selection: null,
+        username: '',
     };
 
     changeSelection = selection => this.setState({ selection });
@@ -46,7 +58,7 @@ class App extends Component {
                             </div>
                         </div>
                     </div>
-                    <UserForm />
+                    <UserForm value={this.state.username} onChange={this.handleUserChange} />
                     <Switch>
                         <Route path="/counter" component={Counter} />
                         <Route path="/filters" component={Filters} />
@@ -59,6 +71,10 @@ class App extends Component {
             </ConnectedRouter>
         );
     }
+
+    handleUserChange = username => {
+        this.setState({ username });
+    };
 }
 
 export default App;

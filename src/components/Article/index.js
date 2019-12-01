@@ -9,7 +9,7 @@ import Loader from '../Loader';
 // import LocalizedText from '../LocalizedText';
 import './style.css';
 
-class Article extends PureComponent {
+class Article extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         isOpen: PropTypes.bool,
@@ -101,4 +101,8 @@ export default connect(
         };
     },
     { deleteArticle, loadArticle },
+    null,
+    {
+        pure: false,
+    },
 )(Article);
