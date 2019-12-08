@@ -6,7 +6,7 @@ import CommentList from '../CommentList';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { deleteArticle, loadArticle } from '../../ActionCreators';
 import Loader from '../Loader';
-// import LocalizedText from '../LocalizedText';
+import LocalizedText from '../LocalizedText';
 import './style.css';
 
 class Article extends Component {
@@ -77,8 +77,7 @@ class Article extends Component {
             <div ref={this.setContainerRef}>
                 <h3>{article.title}</h3>
                 <button onClick={this.handleDelete}>
-                    {/*<LocalizedText>delete me</LocalizedText>*/}
-                    delete me
+                    <LocalizedText>delete me</LocalizedText>
                 </button>
                 <CSSTransitionGroup
                     transitionName="article"

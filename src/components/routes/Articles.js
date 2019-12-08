@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ArticleList from '../ArticleList';
 import Article from '../Article';
 import { Route } from 'react-router-dom';
+import LocalizedText from '../LocalizedText';
 
 class Articles extends Component {
     static propTypes = {};
@@ -23,7 +24,11 @@ class Articles extends Component {
     };
 
     getIndex = () => {
-        return <h2>Please select article</h2>;
+        return (
+            <h2>
+                <LocalizedText>Please select article</LocalizedText>
+            </h2>
+        );
     };
 }
 
